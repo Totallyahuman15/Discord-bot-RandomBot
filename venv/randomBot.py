@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-from dotenv import load_dotenv
+from dotenv import load_dotenv, find_dotenv
 import asyncio
 import os
 import typing
