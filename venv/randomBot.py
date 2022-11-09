@@ -122,6 +122,78 @@ async def _Owo(ctx):
         await asyncio.sleep(1)
         await ctx.send("Owo")
 
+@bot.command(name="destructingMessage")
+async def _destructingMessage(ctx, message: str = None, time: typing.Optional[int] = 5, hide: typing.Optional[bool] = False):
+    await ctx.message.delete()
+    if message == None:
+        async with ctx.typing():
+            await asyncio.sleep(1)
+            await ctx.send("Please put a message")
+    elif hide == True:
+        async with ctx.typing():
+            await asyncio.sleep(1)
+            await ctx.send(f"{message}", delete_after=time)
+    else:
+        async with ctx.typing():
+            await asyncio.sleep(1)
+            msg = await ctx.send(f"{message}; this message will self-destruct in {time}", delete_after=time + 0.5)
+        while time > 1:
+            await asyncio.sleep(1)
+            time -= 1
+            await msg.edit(content=f"{message}; this message will self-destruct in {time}")
+
+@bot.command(name="randomBot.py")
+async def _randomBotdotpy(ctx):
+    async with ctx.typing():
+        await asyncio.sleep(1)
+        await ctx.reply("lol")
+    await asyncio.sleep(2)
+    async with ctx.typing():
+        await asyncio.sleep(1)
+        await ctx.reply("o wait...")
+    await asyncio.sleep(0.1)
+    async with ctx.typing():
+        await asyncio.sleep(1)
+        await ctx.reply("ur serious")
+    await asyncio.sleep(1)
+    async with ctx.typing():
+        await asyncio.sleep(1)
+        await ctx.reply("lol + ratio + XD")
+
+@bot.command(name="giveRole")
+@commands.has_permissions(administrator=True)
+async def _giveRole(ctx):
+    async with ctx.typing():
+        await asyncio.sleep(1)
+        await ctx.reply("lol no")
+
+@_giveRole.error
+async def _giveRole_error(ctx, error):
+    if isinstance(error, commands.MissingPermissions):
+        async with ctx.typing():
+            await asyncio.sleep(1)
+            await ctx.reply("Ok!")
+        await asyncio.sleep(1)
+        async with ctx.typing():
+            await asyncio.sleep(1)
+            msg = await ctx.reply("lol get trollwd XD")
+            await asyncio.sleep(2.5)
+            await msg.edit(content="lol get trolled XD")
+
+@bot.command(name="gibBotToken")
+async def _gibBotToken(ctx):
+    async with ctx.typing():
+        await asyncio.sleep(1)
+        await ctx.reply("Ok the token is:")
+    await asyncio.sleep(1)
+    async with ctx.typing():
+        await asyncio.sleep(1)
+        msg = await ctx.reply("lol get trooled XD")
+    await asyncio.sleep(4)
+    await msg.edit(content="lol get trolles XD")
+    await asyncio.sleep(3)
+    await msg.edit(content="lol get trolled XD")
+
 load_dotenv()
 TOKEN = os.getenv("DISCORD_TOKEN")
 bot.run(TOKEN)
