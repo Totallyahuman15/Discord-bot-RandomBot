@@ -122,26 +122,6 @@ async def _Owo(ctx):
         await asyncio.sleep(1)
         await ctx.send("Owo")
 
-@bot.command(name="destructingMessage")
-async def _destructingMessage(ctx, message: str = None, time: typing.Optional[int] = 5, hide: typing.Optional[bool] = False):
-    await ctx.message.delete()
-    if message == None:
-        async with ctx.typing():
-            await asyncio.sleep(1)
-            await ctx.send("Please put a message")
-    elif hide == True:
-        async with ctx.typing():
-            await asyncio.sleep(1)
-            await ctx.send(f"{message}", delete_after=time)
-    else:
-        async with ctx.typing():
-            await asyncio.sleep(1)
-            msg = await ctx.send(f"{message}; this message will self-destruct in {time}", delete_after=time + 0.5)
-        while time > 1:
-            await asyncio.sleep(1)
-            time -= 1
-            await msg.edit(content=f"{message}; this message will self-destruct in {time}")
-
 @bot.command(name="randomBot.py")
 async def _randomBotdotpy(ctx):
     async with ctx.typing():
