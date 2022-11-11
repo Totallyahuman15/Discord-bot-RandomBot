@@ -187,6 +187,10 @@ async def _show(ctx, time: typing.Optional[int] = 5):
             async with ctx.typing():
                 await asyncio.sleep(1)
                 await ctx.reply("nah im good")
+        elif time > 60:
+            async with ctx.typing():
+                await asyncio.sleep(1)
+                await ctx.reply("Max time limit is 60 seconds (1 min)")
         elif timmyTimer <= 0 and timmyReady == 1:
             timr = time + 25
             timmyReady = 0
