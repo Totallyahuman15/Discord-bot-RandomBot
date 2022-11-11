@@ -5,6 +5,7 @@ import asyncio
 import os
 import typing
 import random
+import time
 
 bot = commands.Bot(command_prefix="uwu", intents=discord.Intents.all())
 
@@ -173,6 +174,39 @@ async def _gibBotToken(ctx):
     await msg.edit(content="lol get trolles XD")
     await asyncio.sleep(3)
     await msg.edit(content="lol get trolled XD")
+
+timmyTimer = 0
+
+@bot.command(name="show")
+async def show(ctx):
+    global timmyTimer
+    if timmyTimer <= 0:
+        async with ctx.typing():
+            await asyncio.sleep(1)
+            msg1 = await ctx.send(":eye: :lips: :eye:")
+            msg2 = await ctx.send(":thumbsdown:             :thumbsup: ")
+            msg3 = await ctx.send(":foot:         :foot:")
+        await asyncio.sleep(1)
+        await msg2.edit(content=":thumbsup:             :thumbsdown: ")
+        await asyncio.sleep(1)
+        await msg2.edit(content=":thumbsdown:             :thumbsup: ")
+        await asyncio.sleep(1)
+        await msg2.edit(content=":thumbsup:             :thumbsdown: ")
+        await asyncio.sleep(1)
+        await msg2.edit(content=":thumbsdown:             :thumbsup: ")
+        await asyncio.sleep(1)
+        await msg2.edit(content=":thumbsup:             :thumbsdown: ")
+        await asyncio.sleep(1)
+        await msg1.delete()
+        await msg2.delete()
+        await msg3.delete()
+        await ctx.reply("Timmy is tired now.")
+        timmyTimer = 30
+    else:
+        await ctx.reply(f"Timmy is still tired! {timmyTimer} seconds left until Timmy's next show!")
+    while timmyTimer > 0:
+        await asyncio.sleep(1)
+        timmyTimer -= 1
 
 load_dotenv()
 TOKEN = os.getenv("DISCORD_TOKEN")
