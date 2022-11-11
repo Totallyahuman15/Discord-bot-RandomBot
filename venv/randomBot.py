@@ -177,17 +177,20 @@ async def _gibBotToken(ctx):
 
 timmyTimer: int = 0
 timmyReady = 1
+timmyCanReply = 1
 
 @bot.command(name="show", pass_context=True)
 async def show(ctx):
     global timmyTimer, timmyReady
     if timmyTimer <= 0 and timmyReady == 1:
         timmyReady = 0
+        timmyCanReply = 0
         async with ctx.typing():
             await asyncio.sleep(1)
             msg1 = await ctx.send(":eye: :lips: :eye:")
             msg2 = await ctx.send(":thumbsdown:             :thumbsup: ")
             msg3 = await ctx.send(":foot:         :foot:")
+        timmyCanReply = 1
         await asyncio.sleep(1)
         await msg2.edit(content=":thumbsup:             :thumbsdown: ")
         await asyncio.sleep(1)
@@ -208,10 +211,118 @@ async def show(ctx):
     elif timmyReady == 0:
         await ctx.message.delete()
     else:
-        await ctx.reply(f"Timmy is still tired! {timmyTimer} seconds left until Timmy's next show!")
+        async with ctx.typing():
+            await asyncio.sleep(1)
+            await ctx.reply(f"Timmy is still tired! {timmyTimer} seconds left until Timmy's next show!")
     while timmyTimer > 0:
         await asyncio.sleep(1)
         timmyTimer -= 1
+
+@bot.command(name="nickName")
+async def _nickName(ctx, newNick: str = None):
+    try:
+        if newNick == None:
+            await ctx.author.edit(nick=ctx.author.name)
+            async with ctx.typing():
+                await asyncio.sleep(1)
+                await ctx.reply("Successfully reset your username!")
+        else:
+            await ctx.author.edit(nick=newNick)
+            async with ctx.typing():
+                await asyncio.sleep(1)
+                await ctx.reply(f"Successfully changed your username to {newNick}")
+    except:
+        async with ctx.typing():
+            await asyncio.sleep(1)
+            await ctx.reply("Error!")
+
+@bot.command(name="nick")
+@commands.has_permissions(administrator=True)
+async def _nick(ctx, user: discord.Member = None, *, nick: str = None):
+    if nick == None:
+        async with ctx.typing():
+            await asyncio.sleep(1)
+            await user.edit(nick=user.name)
+            await ctx.reply(f"Successfully changed {user.mention}'s name to {nick}")
+    else:
+        async with ctx.typing():
+            await asyncio.sleep(1)
+            await user.edit(nick=nick)
+            await ctx.reply(f"Successfully changed {user.mention}'s nickname to {nick}")
+
+@bot.command(name="hsow")
+async def _hsow(ctx):
+    async with ctx.typing():
+        await asyncio.sleep(1)
+        await ctx.reply("lol")
+    await asyncio.sleep(1)
+    async with ctx.typing():
+        await asyncio.sleep(1)
+        msg = await ctx.reply("Imagine spelling hsow wrong")
+    await asyncio.sleep(2)
+    await msg.edit(content="Imagine spelling show wrong")
+
+@bot.command(name="hswo")
+async def _hswo(ctx):
+    async with ctx.typing():
+        await asyncio.sleep(1)
+        await ctx.reply("Bru-")
+    await asyncio.sleep(1)
+    async with ctx.typing():
+        await asyncio.sleep(1)
+        msg = await ctx.reply("How do you spwll show that wrong?")
+    await asyncio.sleep(2)
+    await msg.edit(content="How do you spell show that wrong?")
+
+@bot.command(name="shwo")
+async def _shwo(ctx):
+    async with ctx.typing():
+        await asyncio.sleep(1)
+        await ctx.reply("...")
+    await asyncio.sleep(1)
+    async with ctx.typing():
+        await asyncio.sleep(1)
+        msg = await ctx.reply("HOE DOES ONE SPELL SHOW WRONG?!?!?!?!?!?!?!!11/1?1?!")
+    await asyncio.sleep(2)
+    await msg.edit(content="HOW DOES ONE SPELL SHOW WRONG?!?!?!?!?!?!?!!11/1?1?!")
+
+@bot.command(name="boo")
+async def _boo(ctx):
+    if timmyReady == 0 and timmyCanReply == 1:
+        async with ctx.typing():
+            await asyncio.sleep(1)
+            await ctx.reply("HOW DARE YOU BOO TIMMY!")
+    elif timmyReady == 0 and timmyCanReply == 0:
+        return
+    else:
+        async with ctx.typing():
+            await asyncio.sleep(3)
+            await ctx.reply("?")
+
+@bot.command(name="cheer")
+async def _cheer(ctx):
+    if timmyReady == 0 and timmyCanReply == 1:
+        async with ctx.typing():
+            await asyncio.sleep(1)
+            await ctx.reply("You got 1 Timmy Token (TT)!")
+        await asyncio.sleep(1)
+        async with ctx.typing():
+            await asyncio.sleep(1)
+            await ctx.reply("You can do absolutely nothing with TTs!")
+    elif timmyReady == 0 and timmyCanReply == 0:
+        return
+    else:
+        async with ctx.typing():
+            await asyncio.sleep(1)
+            await ctx.reply("?")
+
+@bot.event
+async def on_message(message):
+    await bot.process_commands(message)
+    if timmyCanReply == 1:
+        return
+    else:
+        await message.delete()
 
 load_dotenv()
 TOKEN = os.getenv("DISCORD_TOKEN")
