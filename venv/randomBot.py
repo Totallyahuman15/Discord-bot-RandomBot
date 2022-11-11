@@ -179,44 +179,51 @@ timmyTimer: int = 0
 timmyReady = 1
 timmyCanReply = 1
 
-@bot.command(name="show", pass_context=True)
-async def show(ctx):
+@bot.command(name="show")
+async def _show(ctx, time: typing.Optional[int] = 5):
     global timmyTimer, timmyReady
-    if timmyTimer <= 0 and timmyReady == 1:
-        timmyReady = 0
-        timmyCanReply = 0
+    try:
+        if timmyTimer <= 0 and timmyReady == 1:
+            timmyReady = 0
+            async with ctx.typing():
+                await asyncio.sleep(1)
+                msg1 = await ctx.send(":eye: :lips: :eye:")
+                msg2 = await ctx.send(":thumbsdown:             :thumbsup: ")
+                msg3 = await ctx.send(":foot:         :foot:")
+            original = 1
+            while time > 0:
+                await asyncio.sleep(1)
+                if original == 1:
+                    await msg2.edit(content=":thumbsup:             :thumbsdown: ")
+                    original = 0
+                    time -= 1
+                else:
+                    await msg2.edit(content=":thumbsdown:             :thumbsup: ")
+                    original = 1
+                if time == 0:
+                    await msg1.delete()
+                    await msg2.delete()
+                    await msg3.delete()
+                    async with ctx.typing():
+                        await asyncio.sleep(1)
+                        await ctx.reply("Timmy is tired now :c")
+                    timmyReady = 1
+                    timmyTimer = 25 + time
+        elif timmyTimer > 0:
+            async with ctx.typing():
+                await asyncio.sleep(1)
+                await ctx.reply(f"Timmy is still tired! {timmyTimer} seconds left untill Timmy's next show!")
+        elif timmyReady != 1 or timmyReady == 0:
+            await ctx.message.delete()
+        else:
+            return
+        while timmyTimer > 0:
+            await asyncio.sleep(1)
+            timmyTimer -= 1
+    except:
         async with ctx.typing():
             await asyncio.sleep(1)
-            msg1 = await ctx.send(":eye: :lips: :eye:")
-            msg2 = await ctx.send(":thumbsdown:             :thumbsup: ")
-            msg3 = await ctx.send(":foot:         :foot:")
-        timmyCanReply = 1
-        await asyncio.sleep(1)
-        await msg2.edit(content=":thumbsup:             :thumbsdown: ")
-        await asyncio.sleep(1)
-        await msg2.edit(content=":thumbsdown:             :thumbsup: ")
-        await asyncio.sleep(1)
-        await msg2.edit(content=":thumbsup:             :thumbsdown: ")
-        await asyncio.sleep(1)
-        await msg2.edit(content=":thumbsdown:             :thumbsup: ")
-        await asyncio.sleep(1)
-        await msg2.edit(content=":thumbsup:             :thumbsdown: ")
-        await asyncio.sleep(1)
-        await msg1.delete()
-        await msg2.delete()
-        await msg3.delete()
-        await ctx.reply("Timmy is tired now.")
-        timmyReady = 1
-        timmyTimer = 30
-    elif timmyReady == 0:
-        await ctx.message.delete()
-    else:
-        async with ctx.typing():
-            await asyncio.sleep(1)
-            await ctx.reply(f"Timmy is still tired! {timmyTimer} seconds left until Timmy's next show!")
-    while timmyTimer > 0:
-        await asyncio.sleep(1)
-        timmyTimer -= 1
+            await ctx.reply("Error!")
 
 @bot.command(name="nickName")
 async def _nickName(ctx, newNick: str = None):
