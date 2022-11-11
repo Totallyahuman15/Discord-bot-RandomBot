@@ -183,7 +183,12 @@ timmyCanReply = 1
 async def _show(ctx, time: typing.Optional[int] = 5):
     global timmyTimer, timmyReady
     try:
-        if timmyTimer <= 0 and timmyReady == 1:
+        if time <= 0:
+            async with ctx.typing():
+                await asyncio.sleep(1)
+                await ctx.reply("nah im good")
+        elif timmyTimer <= 0 and timmyReady == 1:
+            timr = time + 25
             timmyReady = 0
             async with ctx.typing():
                 await asyncio.sleep(1)
@@ -204,11 +209,11 @@ async def _show(ctx, time: typing.Optional[int] = 5):
                     await msg1.delete()
                     await msg2.delete()
                     await msg3.delete()
+                    timmyReady = 1
+                    timmyTimer = timr
                     async with ctx.typing():
                         await asyncio.sleep(1)
                         await ctx.reply("Timmy is tired now :c")
-                    timmyReady = 1
-                    timmyTimer = 25 + time
         elif timmyTimer > 0:
             async with ctx.typing():
                 await asyncio.sleep(1)
