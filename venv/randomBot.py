@@ -175,12 +175,14 @@ async def _gibBotToken(ctx):
     await asyncio.sleep(3)
     await msg.edit(content="lol get trolled XD")
 
-timmyTimer = 0
+timmyTimer: int = 0
+timmyReady = 1
 
-@bot.command(name="show")
+@bot.command(name="show", pass_context=True)
 async def show(ctx):
-    global timmyTimer
-    if timmyTimer <= 0:
+    global timmyTimer, timmyReady
+    if timmyTimer <= 0 and timmyReady == 1:
+        timmyReady = 0
         async with ctx.typing():
             await asyncio.sleep(1)
             msg1 = await ctx.send(":eye: :lips: :eye:")
@@ -201,7 +203,10 @@ async def show(ctx):
         await msg2.delete()
         await msg3.delete()
         await ctx.reply("Timmy is tired now.")
+        timmyReady = 1
         timmyTimer = 30
+    elif timmyReady == 0:
+        await ctx.message.delete()
     else:
         await ctx.reply(f"Timmy is still tired! {timmyTimer} seconds left until Timmy's next show!")
     while timmyTimer > 0:
