@@ -1,1 +1,1 @@
-Random Bot is a Discord bot mad 100% by using discord.py!
+Random Bot is a Discord bot made 100% by using discord.py!
