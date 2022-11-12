@@ -332,13 +332,52 @@ async def _cheer(ctx):
             await asyncio.sleep(1)
             await ctx.reply("?")
 
-@bot.event
-async def on_message(message):
-    await bot.process_commands(message)
-    if timmyCanReply == 1:
-        return
-    else:
-        await message.delete()
+@bot.command(name="cookie")
+async def _cookie(ctx, *, amount: typing.Optional[int] = 1):
+    try:
+        async with ctx.typing():
+            await asyncio.sleep(1)
+            cookies = []
+            while amount > 0:
+                cookies.append(":cookie:")
+                amount -= 1
+            if amount == 0:
+                await ctx.reply(" ".join(cookies))
+            else:
+                pass
+    except:
+        async with ctx.typing():
+            await asyncio.sleep(1)
+            await ctx.reply("Error!")
+
+@bot.command(name="ttscookie")
+async def _ttscookie(ctx, *, amount: typing.Optional[int] = 1):
+    try:
+        async with ctx.typing():
+            await asyncio.sleep(1)
+            cookies = []
+            while amount > 0:
+                cookies.append(":cookie:")
+                amount -= 1
+            if amount == 0:
+                await ctx.reply(" ".join(cookies), tts=True)
+            else:
+                pass
+    except:
+        async with ctx.typing():
+            await asyncio.sleep(1)
+            await ctx.reply("Error!")
+
+@bot.command(name="W")
+async def _w(ctx):
+    try:
+        async with ctx.typing():
+            await asyncio.sleep(1)
+            await ctx.reply("Agreed")
+    except:
+        async with ctx.typing():
+            await asyncio.sleep(1)
+            await ctx.reply("Error!")
 
 load_dotenv()
 TOKEN = os.getenv("DISCORD_TOKEN")
