@@ -335,16 +335,21 @@ async def _cheer(ctx):
 @bot.command(name="cookie")
 async def _cookie(ctx, *, amount: typing.Optional[int] = 1):
     try:
-        async with ctx.typing():
-            await asyncio.sleep(1)
-            cookies = []
-            while amount > 0:
-                cookies.append(":cookie:")
-                amount -= 1
-            if amount == 0:
-                await ctx.reply(" ".join(cookies))
-            else:
-                pass
+        if amount > 222:
+            async with ctx.typing():
+                await asyncio.sleep(1)
+                await ctx.reply("Max is 222")
+        else:
+            async with ctx.typing():
+                await asyncio.sleep(1)
+                cookies = []
+                while amount > 0:
+                    cookies.append(":cookie:")
+                    amount -= 1
+                if amount == 0:
+                    await ctx.reply(" ".join(cookies))
+                else:
+                    pass
     except:
         async with ctx.typing():
             await asyncio.sleep(1)
@@ -353,16 +358,21 @@ async def _cookie(ctx, *, amount: typing.Optional[int] = 1):
 @bot.command(name="ttscookie")
 async def _ttscookie(ctx, *, amount: typing.Optional[int] = 1):
     try:
-        async with ctx.typing():
-            await asyncio.sleep(1)
-            cookies = []
-            while amount > 0:
-                cookies.append(":cookie:")
-                amount -= 1
-            if amount == 0:
-                await ctx.reply(" ".join(cookies), tts=True)
-            else:
-                pass
+        if amount > 222:
+            async with ctx.typing():
+                await asyncio.sleep(1)
+                await ctx.reply("Max is 222")
+        else:
+            async with ctx.typing():
+                await asyncio.sleep(1)
+                cookies = []
+                while amount > 0:
+                    cookies.append(":cookie:")
+                    amount -= 1
+                if amount == 0:
+                    await ctx.reply(" ".join(cookies), tts=True)
+                else:
+                    pass
     except:
         async with ctx.typing():
             await asyncio.sleep(1)
