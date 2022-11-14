@@ -389,6 +389,23 @@ async def _w(ctx):
             await asyncio.sleep(1)
             await ctx.reply("Error!")
 
+@bot.command(name="death")
+async def _death(ctx):
+    try:
+        async with ctx.typing():
+            sec = random.randint(0, 59)
+            min = random.randint(0, 59)
+            hour = random.randint(0, 23)
+            day = random.randint(0, 364)
+            month = random.randint(0, 11)
+            year = random.randint(0, 75)
+            await asyncio.sleep(1)
+            await ctx.reply(f"You will die in {year} year(s), {month} month(s), {day} day(s), {hour} hour(s), {min} minute(s), and {sec} second(s)")
+    except:
+        async with ctx.typing():
+            await asyncio.sleep(1)
+            await ctx.reply("Error!")
+
 load_dotenv()
 TOKEN = os.getenv("DISCORD_TOKEN")
 bot.run(TOKEN)
