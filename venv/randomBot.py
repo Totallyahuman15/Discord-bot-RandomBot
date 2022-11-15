@@ -406,6 +406,51 @@ async def _death(ctx):
             await asyncio.sleep(1)
             await ctx.reply("Error!")
 
+@bot.command(name="trap")
+async def _trap(ctx):
+    try:
+        msg = await ctx.reply(":mouse_trap:")
+        await msg.add_reaction("🧀")
+        def check(reaction, user):
+            return user != bot.user and str(reaction.emoji) in ["🧀"] and reaction.message == msg
+        reaction, confirmation = await bot.wait_for("reaction_add", check=check, timeout=60)
+        if confirmation:
+            await msg.clear_reactions()
+            await ctx.send(f"{confirmation.mention} fell for the trap!")
+            await confirmation.add_roles(discord.utils.get(confirmation.guild.roles, name="Gullible"))
+    except asyncio.TimeoutError:
+        return
+
+@bot.command(name="smort")
+@commands.has_permissions(administrator=True)
+async def _smort(ctx, *, user: discord.Member):
+    try:
+        if discord.utils.get(user.guild.roles, name="Gullible") in user.roles:
+            async with ctx.typing():
+                await asyncio.sleep(1)
+                await user.remove_roles(discord.utils.get(user.guild.roles, name="Gullible"))
+                await ctx.reply(f"{user.mention} is now smort and goodly edumacated!")
+        else:
+            return
+    except:
+        return
+
+@bot.command(name="fastergame")
+async def _fastergame(ctx):
+    try:
+        async with ctx.typing():
+            await asyncio.sleep(1)
+            msg = await ctx.reply("Whoever reacts first wins!")
+            await msg.add_reaction("⏩")
+        def check(reaction, user):
+            return user != bot.user and str(reaction.emoji) in ["⏩"] and reaction.message == msg
+        reaction, confirm = await bot.wait_for("reaction_add", check=check, timeout=60)
+        if confirm:
+            await msg.clear_reactions()
+            await ctx.send(f"{confirm.mention} Wins!!!")
+    except:
+        return
+
 load_dotenv()
 TOKEN = os.getenv("DISCORD_TOKEN")
 bot.run(TOKEN)
