@@ -451,6 +451,34 @@ async def _fastergame(ctx):
     except:
         return
 
+@bot.command(name="reactionMessage")
+async def _reactionMessage(ctx, emoji: str, message: str):
+    try:
+        msg = await ctx.reply(message)
+        await msg.add_reaction(emoji)
+        def check(reaction, user):
+            return user != bot.user and str(reaction.emoji) in [emoji] and reaction.message == msg
+        reaction, wait = await bot.wait_for("reaction_add", check=check)
+        if wait:
+            await msg.remove_reaction(emoji=emoji, member=wait)
+    except:
+        return
+
+@bot.command(name="mrr")
+@commands.has_permissions(administrator=True)
+async def _mrr(ctx, emoji: str, role: discord.Role, times: typing.Optional[int] = 1):
+    await ctx.message.delete()
+    msg = await ctx.send(f"React for '{role}' role!")
+    await msg.add_reaction(emoji)
+    def check(reaction, user):
+        return user != bot.user and str(reaction.emoji) in [emoji] and reaction.message == msg
+    while times > 0:
+        reaction, wait = await bot.wait_for("reaction_add", check=check)
+        if wait:
+            await msg.remove_reaction(emoji=emoji, member=wait)
+            await wait.add_roles(role)
+            times -= 1
+
 load_dotenv()
 TOKEN = os.getenv("DISCORD_TOKEN")
 bot.run(TOKEN)
