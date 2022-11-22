@@ -479,6 +479,22 @@ async def _mrr(ctx, emoji: str, role: discord.Role, times: typing.Optional[int] 
             await wait.add_roles(role)
             times -= 1
 
+@bot.command(name="happy")
+async def _happy(ctx, wink: typing.Optional[bool] = False):
+    try:
+        if wink != True:
+            async with ctx.typing():
+                await asyncio.sleep(1)
+                await ctx.reply(":grinning: :thumbsup: ")
+        else:
+            async with ctx.typing():
+                await asyncio.sleep(1)
+                await ctx.reply(":wink: :thumbsup: ")
+    except:
+        async with ctx.typing():
+            await asyncio.sleep(1)
+            await ctx.reply("Error!")
+
 load_dotenv()
 TOKEN = os.getenv("DISCORD_TOKEN")
 bot.run(TOKEN)
